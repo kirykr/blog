@@ -1,0 +1,11 @@
+<h1>Articles#show</h1>
+<p>Find me in app/views/articles/show.html.erb</p>
+<%= link_to 'Back to index', articles_path %>
+<p>
+  Title: <%= @article.title %>
+</p>
+<p>
+  Description: <%= @article.description %>
+</p>
+<%= link_to 'Edit this article', edit_article_path(@article) %>
+<%= link_to 'Delete this article', article_path(@article), method: :delete, data: {confirm: "Are you sure?"} %>
