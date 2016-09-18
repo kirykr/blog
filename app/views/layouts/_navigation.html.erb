@@ -16,6 +16,7 @@
     <div class="collapse navbar-collapse navbar-ex1-collapse">
       <ul class="nav navbar-nav">
         <li class=<%= current_page?(root_path) ? "active" : "" %> > <%= link_to '<i class="fa fa-home"></i> Home'.html_safe , root_path %></li>
+        <li class=<%= current_page?(articles_path) ? "active" : "" %> > <%= link_to '<i class="fa fa-clipboard fa-fw"></i> Articles'.html_safe , articles_path %></li>
         <li><a href="#">About</a></li>
       </ul>
       <form class="navbar-form navbar-right" role="search">
