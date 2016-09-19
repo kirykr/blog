@@ -15,7 +15,9 @@ class ArticlesController < ApplicationController
 
   def create
     # render plain: params[:article].inspect
-    @article = Article.new(article_param)
+    debugger
+    @article = Article.new(article_params)
+    @article.user = User.first
     if @article.save
       flash[:success] = "The Article has been create successfully!"
       redirect_to article_path(@article)
@@ -29,7 +31,7 @@ class ArticlesController < ApplicationController
 
   def update
 
-    if @article.update(article_param)
+    if @article.update(article_params)
       flash[:success] = "The Article has been updated!"
       redirect_to article_path(@article)
     else
@@ -53,7 +55,7 @@ class ArticlesController < ApplicationController
     @article = Article.find(params[:id])
   end
 
-  def article_param
-    params.require(:article).permit(:title, :description)
+  def article_params
+    params.require(:article).permit(:title, :description, :user_id)
   end
 end
