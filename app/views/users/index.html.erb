@@ -1,8 +1,8 @@
 <p id="notice"><%= notice %></p>
-
-<div class="page-header text-center">
+ <div class="page-header text-center">
   <h1>All Blog Bloggers<small>see all you blog</small></h1>
 </div>
+<%= will_paginate %>
 <% @users.each do |user| %>
  <ul class="list-group">
   <div class="row">
@@ -17,6 +17,7 @@
   </div>
   </ul>
 <% end %>
+<%= will_paginate %>
 
 
 
