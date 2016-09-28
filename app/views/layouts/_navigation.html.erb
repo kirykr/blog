@@ -29,7 +29,7 @@
       <ul class="nav navbar-nav navbar-right">
       <% if logged_in? %>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Hi ! <%= current_user.username.capitalize %>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Hi ! <%= "Admin" if current_user.admin? %> <%= current_user.username.capitalize %>
           <b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li><%= link_to 'Edit Profile', edit_user_path(current_user) %></li>
