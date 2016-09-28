@@ -8,9 +8,11 @@
         
         <small>Created by: <%= article.user.username if article.user %>, <%= time_ago_in_words(article.created_at) %> ago, last updated: <%= time_ago_in_words(article.updated_at) %> ago</small>
         <hr>
-        <%= link_to '<i class="fa fa-edit fa-fw"></i> Edit'.html_safe, edit_article_path(article.id), class: 'btn btn-info btn-xs' %>
         <%= link_to '<i class="fa fa-eye fa-fw"></i> show'.html_safe, article_path(article.id), class: 'btn btn-warning btn-xs' %>
+        <% if logged_in? && current_user == article.user %>
+        <%= link_to '<i class="fa fa-edit fa-fw"></i> Edit'.html_safe, edit_article_path(article.id), class: 'btn btn-info btn-xs' %>
         <%= link_to '<i class="fa fa-trash fa-fw"></i> Delelte'.html_safe, article_path(article.id),  class: 'btn btn-danger btn-xs', method: :delete, data: {confirm: "Are you sure, you want to delete this?"} %>
+        <% end %>
       </div>
     </div>
     <% end %>

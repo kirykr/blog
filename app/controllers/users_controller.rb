@@ -1,16 +1,16 @@
   class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-
+  before_action :require_same_user, only: [:edit, :update]
   # GET /users
   # GET /users.json
   def index
-    @users = User.paginate(page: params[:page], per_page: 2)
+    @users = User.paginate(page: params[:page], per_page: 4).order('created_at DESC')
   end
 
   # GET /users/1
   # GET /users/1.json
   def show
-    @user_articles = @user.articles.paginate(page: params[:page], per_page: 2)
+    @user_articles = @user.articles.paginate(page: params[:page], per_page: 4).order('created_at DESC')
   end
 
   # GET /users/new
@@ -73,5 +73,12 @@
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       params.require(:user).permit(:username, :email, :password)
+    end
+
+    def require_same_user
+      if current_user != @user
+        flash[:danger] = "You can ony edit your own account!"
+        redirect_to root_path
+      end
     end
 end

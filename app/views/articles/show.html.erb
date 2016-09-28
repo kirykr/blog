@@ -26,8 +26,10 @@
 				</p>
 			</div>
 			<div class="panel-footer">
+			<% if logged_in? && current_user == @article.user %>
 				<%= link_to 'Edit this article', edit_article_path(@article), class: 'btn btn-primary btn-xs' %> | 
 				<%= link_to 'Delete this article', article_path(@article), method: :delete, data: {confirm: "Are you sure?"}, class: 'btn btn-danger btn-xs' %>
+				<% end %>
 			</div>
 		</div>
 	</div>
