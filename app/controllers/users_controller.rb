@@ -1,15 +1,17 @@
-class UsersController < ApplicationController
+  class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-
+  before_action :require_same_user, only: [:edit, :update, :destroy]
+  before_action :require_admin, only: [:destroy]
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    @users = User.paginate(page: params[:page], per_page: 4).order('created_at DESC')
   end
 
   # GET /users/1
   # GET /users/1.json
   def show
+    @user_articles = @user.articles.paginate(page: params[:page], per_page: 4).order('created_at DESC')
   end
 
   # GET /users/new
@@ -28,7 +30,11 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        session[:user_id] = @user.id
+        format.html {
+         flash[:success] = 'User was successfully created.'
+         redirect_to user_path(@user) 
+       }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
@@ -36,7 +42,6 @@ class UsersController < ApplicationController
       end
     end
   end
-
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
@@ -55,10 +60,9 @@ class UsersController < ApplicationController
   # DELETE /users/1.json
   def destroy
     @user.destroy
-    respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    flash[:danger] = "User and all related articles have been deleted"
+    redirect_to users_path
+
   end
 
   private
@@ -69,6 +73,20 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:username, :email)
+      params.require(:user).permit(:username, :email, :password)
+    end
+
+    def require_same_user
+      if current_user != @user and !current_user.admin?
+        flash[:danger] = "You can ony edit your own account!"
+        redirect_to root_path
+      end
+    end
+
+    def require_admin
+      if logged_in? and !current_user.admin?
+        flash[:danger] = "Only Admin user can perform that action"
+        redirect_to root_path
+      end
     end
 end

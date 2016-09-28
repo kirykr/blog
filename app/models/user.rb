@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   has_many :comments
-  has_many :articles
+  has_many :articles, dependent: :destroy
   before_save { self.email.downcase }
 
   validates :username, presence: true, uniqueness: { case_sensitive: false },
@@ -9,5 +9,5 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true, 
                       length: { minimum: 2, maximum: 105 },
                       format: { with: VALID_EMAIL_REGEX }
-
+  has_secure_password
 end

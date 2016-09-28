@@ -1,12 +1,38 @@
-<div class="page-header">
-  <h1>Articles#show</h1>
+<div class="row">
+	<div class="col-md-8 col-md-offset-2">
+		<div class="page-header">
+		  <h1>Title: <%= @article.title %>  <small><%= link_to 'Back to index', articles_path %></small></h1>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">Description</h3>
+			</div>
+			<% if(@article.user) %>
+			<ul class="list-group">
+			 <div class="row">
+			   <div class="col-md-8 col-md-offset-2">
+			     <li class="list-group-item">
+			     <%= link_to gravatar_for(@article.user), user_path(@article.user) %></li>
+			     <li class="list-group-item"><h4><%= link_to @article.user.username, user_path(@article.user) %></h4></li>
+			     <li class="list-group-item"><small>
+			     	<%= pluralize(@article.user.articles.count, "article") if @article.user.articles %></small>
+			     </li>
+			 </div>
+			 </ul>
+			 <% end %>
+			<div class="panel-body">
+				<p>
+				  Description: <%= @article.description %>
+				</p>
+			</div>
+			<div class="panel-footer">
+			<% if logged_in? && (current_user == @article.user || current_user.admin?) %>
+				<%= link_to 'Edit this article', edit_article_path(@article), class: 'btn btn-primary btn-xs' %> | 
+				<%= link_to 'Delete this article', article_path(@article), method: :delete, data: {confirm: "Are you sure?"}, class: 'btn btn-danger btn-xs' %>
+				<% end %>
+			</div>
+		</div>
+	</div>
 </div>
-<%= link_to 'Back to index', articles_path %>
-<p>
-  Title: <%= @article.title %>
-</p>
-<p>
-  Description: <%= @article.description %>
-</p>
-<%= link_to 'Edit this article', edit_article_path(@article) %> | 
-<%= link_to 'Delete this article', article_path(@article), method: :delete, data: {confirm: "Are you sure?"} %>
+
+
