@@ -2,3 +2,14 @@
 @import "bootstrap";
 @import "font-awesome";
 /* if you want to use your custom style, place it up to these imports lines*/
+
+.badge {
+	background-color: #CEF6F5;
+	text-transform: uppercase;
+	letter-spacing: -1px;
+	font-weight: bold;
+}
+
+.input_checkbox input{
+	width: auto !important;
+}
